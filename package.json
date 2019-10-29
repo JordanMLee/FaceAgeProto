@@ -10,6 +10,7 @@
     "expo": "^33.0.0",
     "react": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
+    "react-native-core-ml-image": "0.0.6",
     "react-native-easy-grid": "^0.2.0"
   },
   "devDependencies": {

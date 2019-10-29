@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "vedo",
-    "slug": "vedo",
+    "name": "FaceAge",
+    "slug": "FaceAge",
     "privacy": "public",
     "sdkVersion": "33.0.0",
     "platforms": [
@@ -23,7 +23,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jordanmlee.faceage"
     }
   }
 }
