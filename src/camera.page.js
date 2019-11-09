@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import {Camera, Permissions, FaceDetector} from 'expo';
 
 import styles from './styles';
@@ -7,6 +7,10 @@ import Toolbar from './toolbar.component';
 import Gallery from './gallery.component';
 
 export default class CameraPage extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     camera = null;
 
     state = {
@@ -70,14 +74,15 @@ export default class CameraPage extends React.Component {
     handleFacesDetected = ({ faces}) => {
         console.log(faces);
         this.setState({
-            bounds: faces.bounds,
-            yaw: faces.yawAngle,
+            // bounds: faces.bounds,
+            // yaw: faces[0].yawAngle,
         });
 
         if (faces.length === 1) {
             // faces detected
             this.setState({
                 faceDetected: true,
+                yaw: faces[0].yawAngle,
             });
 
 
@@ -118,6 +123,11 @@ export default class CameraPage extends React.Component {
         return (
             <React.Fragment>
                 <View>
+                    <Button title="Profile" style={styles.captureBtn} onPress={() => {
+                        this.props.navigation.navigate({
+                            routeName: 'Home'
+                        })
+                    }}/>
                     <Camera
                         type={cameraType}
                         // flashMode={flashMode}
@@ -138,7 +148,7 @@ export default class CameraPage extends React.Component {
                     </Text>
                     <Text
                     style={styles.textStandard}>
-                        {this.state.yaw}
+                        {this.state.faceDetected? this.state.yaw : undefined }
                         {/*{this.state.bounds.origin.x}*/}
                         {/*{this.state.smilingDetected}*/}
                     </Text>
