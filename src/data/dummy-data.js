@@ -1,4 +1,4 @@
-
+import User from "../models/User";
 import HealthMetric from "../models/HealthMetric";
 
 export const HEALTHMETRICS = [
@@ -8,3 +8,7 @@ export const HEALTHMETRICS = [
     new HealthMetric('c4', 'Exercise', '#368dff'),
     // new HealthMetric('c5', 'Activity', '#9eecff')
 ];
+
+export const USER = new User("Jordan");
+
+

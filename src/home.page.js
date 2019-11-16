@@ -1,4 +1,5 @@
 import React from 'react';
+import ProfileHeader from "./subcomponents/ProfileHeader";
 import Colors from "./constants/Colors";
 import {
     Button,
@@ -26,8 +27,8 @@ class HomeScreen extends React.Component {
     renderGridItem = (itemData) => {
         return (
             <TouchableOpacity style={style.box}>
-                <View >
-                    <Text>{itemData.item.category}</Text>
+                <View style={{...style.tile, ...{backgroundColor: itemData.item.color}}} >
+                    <Text style={style.title}>{itemData.item.category}</Text>
                 </View>
             </TouchableOpacity>
         );
@@ -44,9 +45,9 @@ class HomeScreen extends React.Component {
         return (
             <View style={style.container}>
 
-                <View style={style.profileStyle}>
-                    <Text> Profile </Text>
-                </View>
+                <ProfileHeader/>
+
+
 
                 <FlatList keyExtractor={(item, index) => item.id}
                           data={HEALTHMETRICS}
@@ -56,10 +57,7 @@ class HomeScreen extends React.Component {
                 </FlatList>
 
                 <View style={style.bottomButton}>
-                    {/*<Button style={style.buttonCamera}*/}
-                    {/*    title="Camera"*/}
-                    {/*    onPress={() => navigate('Camera')}*/}
-                    {/*/>*/}
+
                     <TouchableOpacity
                         style={style.bottomButton}
                         onPress={() => navigate('Camera')}
@@ -95,11 +93,11 @@ const style = StyleSheet.create({
         flexDirection: 'column',
         flexWrap: 'wrap',
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        // justifyContent: 'center',
+        // alignItems: 'center'
     },
     box: {
-        backgroundColor: '#3456',
+        // backgroundColor: '#3456',
         height: 100,
         margin: 10,
         width: width - 20,
@@ -132,6 +130,24 @@ const style = StyleSheet.create({
     },
     profileStyle :{
         height: 100
+    },
+    tile:{
+        flex:1,
+
+        width:width-10,
+        borderRadius:10,
+        shadowColor: 'black',
+        shadowOpacity: 0.2,
+        shadowOffset: { width: 0, height: 2},
+        shadowRadius: 10,
+        padding:10,
+
+
+
+    },
+    title: {
+        fontFamily: 'Arial',
+        fontSize: 22
     }
 
 
