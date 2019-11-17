@@ -35,7 +35,7 @@ class ProfileHeader extends Component {
 
                 <TouchableOpacity>
                     <View>
-                        <Text styles={styles.name}>Jordan Lee</Text>
+                        {/*<Text styles={styles.name}>Jordan Lee</Text>*/}
                     </View>
                 </TouchableOpacity>
 
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         flex: 1,
         // alignSelf: 'stretch',
         width: 70,
+
         borderRadius: 30,
         margin: 10,
 

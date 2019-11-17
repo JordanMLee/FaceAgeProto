@@ -1,6 +1,12 @@
 import React from 'react';
 import ProfileHeader from "./subcomponents/ProfileHeader";
 import Colors from "./constants/Colors";
+import {Ionicons, FontAwesome} from '@expo/vector-icons';
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import {HeaderButton} from "react-navigation-header-buttons";
+import CustomHeaderButton from "./subcomponents/HeaderButton";
+import BezierLineChart from "./subcomponents/BezierLineChart";
+
 import {
     Button,
     View,
@@ -27,7 +33,7 @@ class HomeScreen extends React.Component {
     renderGridItem = (itemData) => {
         return (
             <TouchableOpacity style={style.box}>
-                <View style={{...style.tile, ...{backgroundColor: itemData.item.color}}} >
+                <View style={{...style.tile, ...{backgroundColor: itemData.item.color}}}>
                     <Text style={style.title}>{itemData.item.category}</Text>
                 </View>
             </TouchableOpacity>
@@ -45,9 +51,9 @@ class HomeScreen extends React.Component {
         return (
             <View style={style.container}>
 
-                <ProfileHeader/>
 
-
+                {/*<ProfileHeader/>*/}
+                <BezierLineChart></BezierLineChart>
 
                 <FlatList keyExtractor={(item, index) => item.id}
                           data={HEALTHMETRICS}
@@ -56,14 +62,16 @@ class HomeScreen extends React.Component {
                 >
                 </FlatList>
 
+
+
                 <View style={style.bottomButton}>
 
                     <TouchableOpacity
                         style={style.bottomButton}
                         onPress={() => navigate('Camera')}
                     >
-                        <View>
-                            <Text color='white'>Camera</Text>
+                        <View >
+                            <Ionicons name='md-camera' size={40} color='white'></Ionicons>
                         </View>
 
                     </TouchableOpacity>
@@ -76,14 +84,24 @@ class HomeScreen extends React.Component {
     }
 }
 
-HomeScreen.navigationOptions = {
-    headerTitle: "Statistics",
-    headerStyle: {
-        backgroundColor: Colors.headerColor
-    },
-    headerTintColor: 'white'
+HomeScreen.navigationOptions = props => {
+    const {navigate } = props.navigation;
+
+    return {
+        headerTitle: "Statistics",
+        headerStyle: {
+            backgroundColor: Colors.headerColor
+        },
+        headerTintColor: 'white',
+        headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            <Item title="FAVE" iconName='ios-contact' onPress={()=>{
+                navigate('Login');
 
 
+            }}/>
+        </HeaderButtons>
+
+    };
 
 
 };
@@ -116,32 +134,31 @@ const style = StyleSheet.create({
     bottomButton: {
         backgroundColor: Colors.headerColor,
         position: 'absolute',
-        bottom:0,
+        bottom: 0,
         tintColor: 'white',
-        width:width,
-        height:70,
-        alignItems:'center',
-        justifyContent:'center',
+        width: width,
+        height: 70,
+        alignItems: 'center',
+        justifyContent: 'center',
         color: 'white'
 
     },
     buttonCamera: {
         color: 'white'
     },
-    profileStyle :{
+    profileStyle: {
         height: 100
     },
-    tile:{
-        flex:1,
+    tile: {
+        flex: 1,
 
-        width:width-10,
-        borderRadius:10,
+        width: width - 10,
+        borderRadius: 10,
         shadowColor: 'black',
         shadowOpacity: 0.2,
-        shadowOffset: { width: 0, height: 2},
+        shadowOffset: {width: 0, height: 2},
         shadowRadius: 10,
-        padding:10,
-
+        padding: 10,
 
 
     },
@@ -149,7 +166,6 @@ const style = StyleSheet.create({
         fontFamily: 'Arial',
         fontSize: 22
     }
-
 
 
 });

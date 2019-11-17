@@ -5,6 +5,7 @@ import {Camera, Permissions, FaceDetector} from 'expo';
 import styles from './styles';
 import Toolbar from './toolbar.component';
 import Gallery from './gallery.component';
+import Colors from "./constants/Colors";
 
 export default class CameraPage extends React.Component {
     constructor(props) {
@@ -172,3 +173,16 @@ export default class CameraPage extends React.Component {
     };
 };
 
+CameraPage.navigationOptions = props =>{
+    const {navigate} = props.navigation;
+    return {
+        headerStyle: {
+            backgroundColor: Colors.headerColor
+        },
+        headerTintColor: 'white'
+
+    }
+
+
+
+};
