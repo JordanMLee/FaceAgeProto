@@ -31,8 +31,12 @@ class HomeScreen extends React.Component {
     }
 
     renderGridItem = (itemData) => {
+        const {navigate} = this.props.navigation;
         return (
-            <TouchableOpacity style={style.box}>
+            <TouchableOpacity style={style.box} onPress={() => {
+                // console.log("pressed");
+                navigate(itemData.item.category);
+            }}>
                 <View style={{...style.tile, ...{backgroundColor: itemData.item.color}}}>
                     <Text style={style.title}>{itemData.item.category}</Text>
                 </View>

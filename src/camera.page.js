@@ -7,6 +7,8 @@ import Toolbar from './toolbar.component';
 import Gallery from './gallery.component';
 import Colors from "./constants/Colors";
 
+import * as firebase from "firebase";
+
 export default class CameraPage extends React.Component {
     constructor(props) {
         super(props);
@@ -27,7 +29,18 @@ export default class CameraPage extends React.Component {
         smilingDetected: 0,
         yaw: 0,
         bounds: {},
+        selectedImage: null
     };
+
+    uploadImage = async (uri ) => {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        var ref = firebase.storage().ref().child("images/");
+        return ref.put(blob)
+    };
+
+
+
 
     setFlashMode = (flashMode) => this.setState({flashMode});
     setCameraType = (cameraType) => this.setState({cameraType});
@@ -39,7 +52,9 @@ export default class CameraPage extends React.Component {
     // };
 
     handleShortCapture = async () => {
-        const photoData = await this.camera.takePictureAsync();
+        const photoData = await this.camera.takePictureAsync({
+            // quality: 0.3
+        });
         this.setState({capturing: false, captures: [photoData, ...this.state.captures]})
     };
 

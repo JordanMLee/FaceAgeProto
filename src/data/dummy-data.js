@@ -1,5 +1,6 @@
 import User from "../models/User";
 import HealthMetric from "../models/HealthMetric";
+import Sleep from "../models/Sleep";
 
 export const HEALTHMETRICS = [
     new HealthMetric('c1','Sleep', '#f5428d'),
@@ -12,3 +13,14 @@ export const HEALTHMETRICS = [
 export const USER = new User("Jordan");
 
 
+export const SLEEPDATA = [
+
+    new Sleep(1,10.0),
+    new Sleep(2,7.9),
+    new Sleep(3,6.3),
+    new Sleep(4,7.4),
+    new Sleep(5,8.0),
+    new Sleep(6,4.5),
+    new Sleep(7,3.2)
+
+];
