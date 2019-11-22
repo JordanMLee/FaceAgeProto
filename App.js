@@ -7,6 +7,8 @@ import ApiKeys from "./src/constants/ApiKeys";
 import selfieReducer from "./src/store/reducers/selfie";
 import sleepReducer from "./src/store/reducers/sleep";
 import AppNavigator from './src/navigation/faces.navigation'
+
+import MainNavigator from './src/navigation/faces.navigation';
 import * as firebase from "firebase";
 // import {init} from './src/helpers/db';
 // init();
@@ -50,7 +52,6 @@ export default class App extends React.Component {
 
     render() {
         return (
-
             <Provider store={store}><AppNavigator/></Provider>
         );
     };

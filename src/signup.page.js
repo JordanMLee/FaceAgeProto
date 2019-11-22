@@ -1,10 +1,17 @@
 import React, {Component} from 'react';
-import {View, Image, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, Button} from "react-native";
+import {View, Image, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, Button, Alert} from "react-native";
 import {Ionicons} from '@expo/vector-icons';
+import * as firebase from 'firebase';
 
 class SignupPage extends Component {
     constructor(props){
         super(props);
+        this.state = {
+            name :"",
+            email: "",
+            password: "",
+            passwordConfirm: "",
+        }
     }
 
     static navigationOptions = {
@@ -12,8 +19,30 @@ class SignupPage extends Component {
 
     };
 
+    onSignupPress = () => {
+
+
+        if (this.state.password !== this.state.passwordConfirm ) {
+            Alert.alert("Passwords do not match");
+            return;
+        }
+
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then( () => {
+                Alert.alert("New user created")
+
+
+            }, (error) => {
+                Alert.alert(error.message);
+
+            });
+    };
+
     render() {
         const {navigate} = this.props.navigation;
+
+
+
         return (
 
             <ImageBackground source={require('../assets/background1.png')} style={{width: '100%', height: '80%'}}>
@@ -28,11 +57,32 @@ class SignupPage extends Component {
                 </View>
 
 
-                <TextInput style={style.input} placeholder="Name"/>
-                <TextInput style={style.input} placeholder="Email"/>
-                <TextInput style={style.input} placeholder="Password"/>
-                <TextInput style={style.input} placeholder="Confirm"/>
+                <TextInput style={style.input}
+                           placeholder="Name"
+                           value={this.state.name}
+                           onChangeText={(text) => { this.setState({name: text})}}
+                />
+
+                <TextInput style={style.input}
+                           placeholder="Email"
+                           value={this.state.email}
+                           onChangeText={(text) => { this.setState({email: text})}}
+                />
+
+                <TextInput style={style.input}
+                           placeholder="Password"
+                           value ={this.state.password}
+                           onChangeText={(text) => { this.setState({password: text})}}
+                />
+
+                <TextInput style={style.input}
+                           placeholder="Confirm"
+                           value={this.state.passwordConfirm}
+                           onChangeText={(text) => { this.setState({passwordConfirm: text})}}
+                />
+
                 <TouchableOpacity style={style.button}
+                                  onPress={ () => {this.onSignupPress()}}
                 >
                     <Text style={style.buttonLabel}>Create account</Text>
                 </TouchableOpacity>

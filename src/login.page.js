@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Text, TextInput, Button, View, StyleSheet, ImageBackground} from 'react-native';
+import {Text, TextInput, Button, View, StyleSheet, ImageBackground, Alert} from 'react-native';
 import t from 'tcomb-form-native';
+import * as firebase from "firebase";
 
 const Form = t.form.Form;
 
@@ -16,9 +17,25 @@ class LoginPage extends Component {
 
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            password: "",
+        }
+    }
+
     handleSubmit = () => {
         const value = this._form.getValue(); // use to get the form value
-        console.log('value: ', value)
+        console.log('value: ', value.password);
+        // if (value !== null){}
+        firebase.auth().signInWithEmailAndPassword(this._form.getValue().username, this._form.getValue().password)
+            .then(()=> {
+                Alert.alert("Authenticated")
+
+            }, (error) => {
+                Alert.alert(error.message);
+            })
     };
 
 

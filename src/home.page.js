@@ -6,6 +6,7 @@ import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import {HeaderButton} from "react-navigation-header-buttons";
 import CustomHeaderButton from "./subcomponents/HeaderButton";
 import BezierLineChart from "./subcomponents/BezierLineChart";
+import BezierLineChartFake from "./subcomponents/BezierLineChartFake";
 
 import {
     Button,
@@ -16,6 +17,7 @@ import {
     FlatList,
     Dimensions,
     TextInput,
+    Alert
 } from "react-native";
 import {HEALTHMETRICS} from "./data/dummy-data";
 import {Col} from "react-native-easy-grid";
@@ -50,6 +52,20 @@ class HomeScreen extends React.Component {
 
     };
 
+    // componentDidMount() {
+    //     console.log("COmponent mounted");
+    //     fetch('https://jsonplaceholder.typicode.com/todos/1')
+    //         .then(response => response.json())
+    //         .then(json => Alert.alert(json.title))
+    // }
+
+    getData = () => {
+        fetch('https://jsonplaceholder.typicode.com/todos/1')
+            .then(response => response.json())
+            .then(json => console.log(json));
+
+    };
+
     render() {
         const {navigate} = this.props.navigation;
         return (
@@ -58,6 +74,7 @@ class HomeScreen extends React.Component {
 
                 {/*<ProfileHeader/>*/}
                 <BezierLineChart></BezierLineChart>
+                <BezierLineChartFake/>
 
                 <FlatList keyExtractor={(item, index) => item.id}
                           data={HEALTHMETRICS}
@@ -71,7 +88,7 @@ class HomeScreen extends React.Component {
                 <View style={style.bottomButton}>
 
                     <TouchableOpacity
-                        style={style.bottomButton}
+                        // style={style.bottomButton}
                         onPress={() => navigate('Camera')}
                     >
                         <View >
@@ -79,6 +96,16 @@ class HomeScreen extends React.Component {
                         </View>
 
                     </TouchableOpacity>
+                    <TouchableOpacity
+                        // style={style.bottomButton}
+                        onPress={() => navigate('Test')}
+                    >
+                        <View >
+                            <Ionicons name='md-image' size={40} color='white'></Ionicons>
+                        </View>
+
+                    </TouchableOpacity>
+
                 </View>
 
             </View>
@@ -137,13 +164,16 @@ const style = StyleSheet.create({
     },
     bottomButton: {
         backgroundColor: Colors.headerColor,
-        position: 'absolute',
+        // position: 'absolute',
+        flexDirection: 'row',
+
         bottom: 0,
         tintColor: 'white',
         width: width,
         height: 70,
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
+        justifyContent:'space-evenly',
         color: 'white'
 
     },

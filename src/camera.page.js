@@ -8,6 +8,7 @@ import Gallery from './gallery.component';
 import Colors from "./constants/Colors";
 
 import * as firebase from "firebase";
+import * as ImageManipulator from "expo-image-manipulator";
 
 export default class CameraPage extends React.Component {
     constructor(props) {
@@ -39,6 +40,19 @@ export default class CameraPage extends React.Component {
         return ref.put(blob)
     };
 
+    resize_and_convert = async (image) => {
+        return await ImageManipulator.manipulateAsync(
+            image.uri,
+            [
+                {resize: {width: 48, height: 48}},
+                // {rotate: 90}
+
+            ], {
+                // format: ImageManipulator.SaveFormat.PNG
+
+            })
+    };
+
 
 
 
@@ -52,10 +66,17 @@ export default class CameraPage extends React.Component {
     // };
 
     handleShortCapture = async () => {
+        console.log("Taking Picture");
         const photoData = await this.camera.takePictureAsync({
+            base64:true
+
             // quality: 0.3
         });
-        this.setState({capturing: false, captures: [photoData, ...this.state.captures]})
+
+        const convertPhoto = await this.resize_and_convert(photoData);
+        this.setState({capturing: false, captures: [convertPhoto, ...this.state.captures]})
+
+        // this.setState({capturing: false, captures: [photoData, ...this.state.captures]})
     };
 
     takePicture = async () => {
@@ -157,6 +178,8 @@ export default class CameraPage extends React.Component {
                             minDetectionInterval: 0,
                             tracking: false,
                         }}
+                        // pictureSize={{width: 48, height: 48}}
+
                     />
                     <Text
                         style={styles.textStandard}>

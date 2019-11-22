@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "expo": "^33.0.0",
+    "expo-asset": "^7.0.0",
     "expo-file-system": "~5.0.1",
+    "expo-image-manipulator": "~5.0.1",
     "expo-sqlite": "~5.0.1",
     "firebase": "^7.4.0",
     "prop-types": "^15.7.2",

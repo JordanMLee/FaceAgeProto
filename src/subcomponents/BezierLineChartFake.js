@@ -12,23 +12,23 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-const BezierLineChart =() => {
+const BezierLineChartFake =() => {
     return (
         <View>
-            <Text style={{padding:10}}>FaceAge</Text>
+            <Text style={{padding:5}}>Emotions</Text>
             <LineChart
                 data={{
                     labels: ["Mar", "Apr", "May", "Jun","Jul","Aug","Sep","Oct","Nov"],
                     datasets: [
                         {
                             data: [
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
+                                getRandomInt(0,3),
+                                getRandomInt(0,3),
+                                getRandomInt(0,3),
+                                getRandomInt(0,3),
+                                getRandomInt(0,3),
+                                getRandomInt(0,3),
+                                getRandomInt(0,3),
                                 // Math.random() * 100,
                                 // Math.random() * 100,
                                 // Math.random() * 100,
@@ -40,13 +40,13 @@ const BezierLineChart =() => {
                     ]
                 }}
                 width={Dimensions.get("window").width -15 } // from react-native
-                height={200}
+                height={175}
                 // yAxisLabel={"$"}
                 // yAxisSuffix={"k"}
                 chartConfig={{
-                    backgroundColor: "#e26a00",
-                    backgroundGradientFrom: "#fb8c00",
-                    backgroundGradientTo: "#ffa726",
+                    backgroundColor: "#f5428d",
+                    backgroundGradientFrom: "#f5428d",
+                    backgroundGradientTo: "#f5428d",
                     decimalPlaces: 0, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -56,7 +56,7 @@ const BezierLineChart =() => {
                     propsForDots: {
                         r: "6",
                         strokeWidth: "2",
-                        stroke: "#ffa726"
+                        stroke: "#f5428d"
                     }
                 }}
                 bezier
@@ -80,4 +80,4 @@ const chartConfig = {
     barPercentage: 0.5
 };
 
-export default  BezierLineChart;
+export default  BezierLineChartFake;
