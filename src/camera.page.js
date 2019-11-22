@@ -8,7 +8,6 @@ import Gallery from './gallery.component';
 import Colors from "./constants/Colors";
 
 import * as firebase from "firebase";
-import * as ImageManipulator from "expo-image-manipulator";
 
 export default class CameraPage extends React.Component {
     constructor(props) {
@@ -30,30 +29,51 @@ export default class CameraPage extends React.Component {
         smilingDetected: 0,
         yaw: 0,
         bounds: {},
-        selectedImage: null
+        selectedImage: null,
+        emotions: "Hello"
     };
 
-    uploadImage = async (uri ) => {
+    uploadImage = async (uri) => {
         const response = await fetch(uri);
         const blob = await response.blob();
         var ref = firebase.storage().ref().child("images/");
         return ref.put(blob)
     };
 
-    resize_and_convert = async (image) => {
-        return await ImageManipulator.manipulateAsync(
-            image.uri,
-            [
-                {resize: {width: 48, height: 48}},
-                // {rotate: 90}
+    // resize_and_convert = async (image) => {
+    //     return await ImageManipulator.manipulateAsync(
+    //         image.uri,
+    //         [
+    //             {resize: {width: 48, height: 48}},
+    //             // {rotate: 90}
+    //
+    //         ], {
+    //             // format: ImageManipulator.SaveFormat.PNG
+    //
+    //         })
+    // };
 
-            ], {
-                // format: ImageManipulator.SaveFormat.PNG
+    sendToML = async (image) => {
+        console.log("sending to ml")
+        try {
+            let resp = await fetch('https://2d2cmhl2yb.execute-api.us-east-2.amazonaws.com/test/predictemotions', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({data: image.base64})
+            });
 
-            })
+            let response = await resp.json();
+            // await console.log(response);
+            // console.log(response);
+            return response;
+        } catch (error) {
+            console.log(error)
+        }
+
     };
-
-
 
 
     setFlashMode = (flashMode) => this.setState({flashMode});
@@ -68,15 +88,18 @@ export default class CameraPage extends React.Component {
     handleShortCapture = async () => {
         console.log("Taking Picture");
         const photoData = await this.camera.takePictureAsync({
-            base64:true
+            base64: true
 
             // quality: 0.3
         });
 
-        const convertPhoto = await this.resize_and_convert(photoData);
-        this.setState({capturing: false, captures: [convertPhoto, ...this.state.captures]})
-
-        // this.setState({capturing: false, captures: [photoData, ...this.state.captures]})
+        // const convertPhoto = await this.resize_and_convert(photoData);
+        // this.setState({capturing: false, captures: [convertPhoto, ...this.state.captures]})
+        const someCoolData = await this.sendToML(photoData);
+        console.log('some cool data');
+        console.log(someCoolData.body);
+        this.setState({emotions: someCoolData.body})
+        this.setState({capturing: false, captures: [photoData, ...this.state.captures]})
     };
 
     takePicture = async () => {
@@ -92,11 +115,6 @@ export default class CameraPage extends React.Component {
         this.detectFaces(false)
     };
 
-    // handleLongCapture = async () => {
-    //     const videoData = await this.camera.recordAsync();
-    //     this.setState({capturing: false, captures: [videoData, ...this.state.captures]});
-    // };
-
     async componentDidMount() {
         const camera = await Permissions.askAsync(Permissions.CAMERA);
         const audio = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
@@ -108,13 +126,9 @@ export default class CameraPage extends React.Component {
 
         }, 2000)
     };
-    handleFacesDetected = ({ faces}) => {
-        console.log(faces);
-        this.setState({
-            // bounds: faces.bounds,
-            // yaw: faces[0].yawAngle,
-        });
 
+    handleFacesDetected = ({faces}) => {
+        // console.log(faces);
         if (faces.length === 1) {
             // faces detected
             this.setState({
@@ -122,21 +136,12 @@ export default class CameraPage extends React.Component {
                 yaw: faces[0].yawAngle,
             });
 
-
-            // this.takePicture()
-
         } else {
             // no faces detected
             this.setState({
                 faceDetected: false
             });
         }
-        // if (faces.smilingProbability) {
-        //     this.setState({
-        //         smilingDetected: faces.smilingProbability
-        //     })
-        //
-        // }
 
 
     };
@@ -186,10 +191,14 @@ export default class CameraPage extends React.Component {
                         {this.state.faceDetected ? 'Face Detected' : 'No Face Detected'}
                     </Text>
                     <Text
-                    style={styles.textStandard}>
-                        {this.state.faceDetected? this.state.yaw : undefined }
+                        style={styles.textStandard}>
+                        {this.state.faceDetected ? this.state.yaw : undefined}
                         {/*{this.state.bounds.origin.x}*/}
                         {/*{this.state.smilingDetected}*/}
+                    </Text>
+
+                    <Text style={styles.textStandard}>
+                        {this.state.captures ? this.state.emotions : undefined}
                     </Text>
                 </View>
 
@@ -211,7 +220,7 @@ export default class CameraPage extends React.Component {
     };
 };
 
-CameraPage.navigationOptions = props =>{
+CameraPage.navigationOptions = props => {
     const {navigate} = props.navigation;
     return {
         headerStyle: {
@@ -220,7 +229,6 @@ CameraPage.navigationOptions = props =>{
         headerTintColor: 'white'
 
     }
-
 
 
 };
