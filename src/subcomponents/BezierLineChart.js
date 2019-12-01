@@ -6,13 +6,52 @@ import {
     ProgressChart
 } from "react-native-chart-kit";
 
+import * as firebase from "firebase";
+
+
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-const BezierLineChart =() => {
+function getDataBaseData() {
+    let database = firebase.database();
+    let ref = database.ref('userFaceAge');
+    ref.on('value',gotData, errData);
+}
+
+function gotData(data) {
+    console.log(data.val())
+
+}
+
+function errData(err) {
+    console.log("Errror");
+    console.log(err);
+}
+
+
+function getRealData(){
+
+
+    return [
+        getRandomInt(24,28),
+        getRandomInt(24,28),
+        getRandomInt(24,28),
+        getRandomInt(24,28),
+        getRandomInt(24,28),
+        getRandomInt(24,28),
+        getRandomInt(24,28),
+
+        ];
+
+}
+
+
+const BezierLineChart = () => {
+
+    // getDataBaseData();
     return (
         <View>
             <Text style={{padding:10}}>FaceAge</Text>
@@ -21,21 +60,8 @@ const BezierLineChart =() => {
                     labels: ["Mar", "Apr", "May", "Jun","Jul","Aug","Sep","Oct","Nov"],
                     datasets: [
                         {
-                            data: [
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
-                                getRandomInt(24,28),
-                                // Math.random() * 100,
-                                // Math.random() * 100,
-                                // Math.random() * 100,
-                                // Math.random() * 100,
-                                // Math.random() * 100,
-                                // Math.random() * 100
-                            ]
+                            data: getRealData(),
+
                         }
                     ]
                 }}

@@ -9,6 +9,7 @@ import Colors from "./constants/Colors";
 
 import * as firebase from "firebase";
 
+
 export default class CameraPage extends React.Component {
     constructor(props) {
         super(props);

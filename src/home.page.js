@@ -21,6 +21,7 @@ import {
 } from "react-native";
 import {HEALTHMETRICS} from "./data/dummy-data";
 import {Col} from "react-native-easy-grid";
+import * as firebase from "firebase";
 
 const width = Dimensions.get('window').width;
 
@@ -29,6 +30,7 @@ class HomeScreen extends React.Component {
         super(props);
         this.state = {
             scrollEnabled: false,
+            emotionData:[]
         }
     }
 
@@ -52,6 +54,21 @@ class HomeScreen extends React.Component {
 
     };
 
+    getDBData = () => {
+
+        let database = firebase.database();
+        let ref = database.ref('userFaceAge');
+        ref.on('value',(data) => {
+            console.log(data);
+            this.setState({emotions: data});
+
+        }, (err) => {
+            console.log(err)
+        });
+
+    };
+
+
 
     getData = () => {
         fetch('https://jsonplaceholder.typicode.com/todos/1')
@@ -66,8 +83,12 @@ class HomeScreen extends React.Component {
 
 
                 {/*<ProfileHeader/>*/}
-                <BezierLineChart></BezierLineChart>
-                <BezierLineChartFake/>
+                <BezierLineChart
+                >
+                </BezierLineChart>
+                <BezierLineChartFake
+
+                />
 
                 <FlatList keyExtractor={(item, index) => item.id}
                           data={HEALTHMETRICS}

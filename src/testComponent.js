@@ -36,7 +36,8 @@ export default class ImageManipulatorSample extends React.Component {
     _rotate90andFlip = async () => {
         const manipResult = await ImageManipulator.manipulateAsync(
             this.state.image.localUri || this.state.image.uri,
-            [{ rotate: 90 } ,{resize: {width: 48, height: 48}}, { flip: ImageManipulator.FlipType.Vertical }],
+            [{resize: {width: 48, height: 48}}],
+            // [{ rotate: 90 } ,{resize: {width: 48, height: 48}}, { flip: ImageManipulator.FlipType.Vertical }],
             // { compress: 1, format: ImageManipulator.SaveFormat.PNG }
             // { format: ImageManipulator.SaveFormat.PNG }
             {}
