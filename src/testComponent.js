@@ -3,6 +3,8 @@ import { Button, View, Image } from 'react-native';
 import { Asset } from 'expo-asset';
 import * as ImageManipulator from 'expo-image-manipulator';
 
+import EmotionsChart from "./subcomponents/EmotionsChart";
+
 export default class ImageManipulatorSample extends React.Component {
     // constructor(props){
     //     super(props);
@@ -29,6 +31,9 @@ export default class ImageManipulatorSample extends React.Component {
             <View style={{ flex: 1, justifyContent: 'center' }}>
                 {this.state.ready && this._renderImage()}
                 <Button title="Rotate and Flip" onPress={this._rotate90andFlip} />
+                <EmotionsChart
+
+                ></EmotionsChart>
             </View>
         );
     }
